@@ -1,0 +1,87 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Expense {
+    String description;
+    double amount;
+
+    public Expense(String description, double amount) {
+        this.description = description;
+        this.amount = amount;
+    }
+}
+
+class ExpenseTracker {
+    ArrayList<Expense> expenses;
+
+    public ExpenseTracker() {
+        this.expenses = new ArrayList<>();
+    }
+
+    public void addExpense(String description, double amount) {
+        Expense expense = new Expense(description, amount);
+        expenses.add(expense);
+        System.out.println("Expense added successfully!");
+    }
+
+    public void viewExpenses() {
+        if (expenses.isEmpty()) {
+            System.out.println("No expenses to display.");
+        } else {
+            System.out.println("Expense List:");
+            for (Expense expense : expenses) {
+                System.out.println("Description: " + expense.description + ", Amount: $" + expense.amount);
+            }
+        }
+    }
+
+    public double calculateTotalExpense() {
+        double total = 0;
+        for (Expense expense : expenses) {
+            total += expense.amount;
+        }
+        return total;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        try (Scanner x = new Scanner(System.in)) {
+            ExpenseTracker expenseTracker = new ExpenseTracker();
+
+            while (true) {
+                System.out.println("\nExpense Tracker Menu:");
+                System.out.println("1. Add Expense");
+                System.out.println("2. View Expenses");
+                System.out.println("3. Calculate Total Expense");
+                System.out.println("4. Exit");
+
+                System.out.print("Enter your choice: ");
+                int choice = x.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter expense description: ");
+                        x.nextLine();  // Consume the newline character
+                        String description = x.nextLine();
+                        System.out.print("Enter expense amount: $");
+                        double amount = x.nextDouble();
+                        expenseTracker.addExpense(description, amount);
+                        break;
+                    case 2:
+                        expenseTracker.viewExpenses();
+                        break;
+                    case 3:
+                        System.out.println("Total Expense: $" + expenseTracker.calculateTotalExpense());
+                        break;
+                    case 4:
+                        System.out.println("Exiting Expense Tracker. Goodbye!");
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please enter a valid option.");
+                }
+            }
+        }
+    }
+}
